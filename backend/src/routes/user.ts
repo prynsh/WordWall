@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { Prisma, PrismaClient } from '@prisma/client/edge'
+import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { sign ,verify} from 'hono/jwt'
+import { sign } from 'hono/jwt'
 import { signInInput, signUpInput} from "@wordwall/blog-common"
 
 export const userRouter= new Hono<{
@@ -14,34 +14,61 @@ export const userRouter= new Hono<{
   }
 }> ();
 
-userRouter.post('/signup', async (c) => {
-    const body = await c.req.json();
-    const {success } = signUpInput.safeParse(body)
-    if(!success){
-        c.status(411);
-        return c.json({
-            message:"Input are not correct"
-        })
-    }
+// userRouter.post('/signup', async (c) => {
+//     const body = await c.req.json();
+//     const {success } = signUpInput.safeParse(body)
+//     if(!success){
+//         c.status(411);
+//         return c.json({
+//             message:"Inputs are not correct"
+//         })
+//     }
 
+// 	const prisma = new PrismaClient({
+// 		datasourceUrl: c.env?.DATABASE_URL,
+// 	}).$extends(withAccelerate());
+// 	try {
+// 		const user = await prisma.user.create({
+// 			data: {
+// 				email: body.email,
+// 				password: body.password,
+// 			}
+// 		});
+//     const token = await sign({id:user.id}, c.env.JWT_SECRET);
+	
+// 		return c.json({
+//       jwt:token
+//     })
+// 	} catch(e) {
+// 		c.status(403);
+//     return c.json({
+//       "message": "Error"
+//     })
+// 	}
+// })
+userRouter.post('/signup', async (c) => {
 	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
+		datasourceUrl: c.env?.DATABASE_URL	,
 	}).$extends(withAccelerate());
+
+	const body = await c.req.json();
+	const { success } = signUpInput.safeParse(body);
+	if (!success) {
+		c.status(400);
+		return c.json({ error: "invalid input" });
+	}
 	try {
 		const user = await prisma.user.create({
 			data: {
 				email: body.email,
-				password: body.password,
-        name: body.name
+				password: body.password
 			}
 		});
-    const token = await sign({id:user.id}, c.env.JWT_SECRET);
-	
-		return c.json({
-      jwt:token
-    })
+		const token = await sign({ id: user.id }, c.env.JWT_SECRET);
+		return c.json({ token });
 	} catch(e) {
-		return c.status(403);
+		c.status(403);
+		return c.json({ error: "error while signing up" });
 	}
 })
 userRouter.post("/signin", async (c)=>{
@@ -69,9 +96,9 @@ userRouter.post("/signin", async (c)=>{
       error:"User not found"
     })
   }
-  const jwt = await sign({id:user.id} , c.env.JWT_SECRET);
+  const token = await sign({id:user.id} , c.env.JWT_SECRET);
 
   return c.json({
-    jwt
+    jwt:token
   })
 })

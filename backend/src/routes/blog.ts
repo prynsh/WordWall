@@ -35,8 +35,7 @@ blogRouter.use("/*", async(c,next)=>{
             c.json({
                 message:"Not Logged In"
             })
-    }
-    next();
+    } 
 })
 
 
