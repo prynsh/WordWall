@@ -33,7 +33,7 @@ export const Auth=({type}:{type:"signup" | "signin"})=>{
                             {type==="signin"? "Sign Up" : "Sign In" } </Link>
                     </div>
                     <div className="flex justify-center">
-                    {type === "signup" ? <LabelledInputs label="Name" placeholder="Harkirat Singh..." onChange={(e) => {
+                    {type === "signup" ? <LabelledInputs label="Name" placeholder="Name..." onChange={(e) => {
                         setPostInputs({
                             ...postInputs,
                             name: e.target.value
