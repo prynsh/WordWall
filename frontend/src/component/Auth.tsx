@@ -8,7 +8,8 @@ export const Auth=({type}:{type:"signup" | "signin"})=>{
     const navigate= useNavigate();
      const [postInputs,setPostInputs]  = useState<SignUpInput> ({
         email:"",
-        password:""
+        password:"",
+        name:""
      });
 
     async function sendRequest(){
@@ -30,6 +31,14 @@ export const Auth=({type}:{type:"signup" | "signin"})=>{
                     <div className="text-gray-500 flex justify-center mt-1 ">
                         {type === "signin" ?"Don't have an account" : "Already have an account?" } <Link  to={type==="signin"? "/signup" :"/signin"} className=" pl-1 underline">
                             {type==="signin"? "Sign Up" : "Sign In" } </Link>
+                    </div>
+                    <div className="flex justify-center">
+                    <LabelledInputs   label="Name" placeholder="Name..." onChange={(e)=>{
+                        setPostInputs(c=>({
+                            ...c,
+                            name:e.target.value
+                        }))
+                    }}/>
                     </div>
                     <div className="flex justify-center">
                     <LabelledInputs   label="Email" placeholder="Email..." onChange={(e)=>{
