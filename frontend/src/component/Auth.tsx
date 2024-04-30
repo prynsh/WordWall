@@ -33,12 +33,12 @@ export const Auth=({type}:{type:"signup" | "signin"})=>{
                             {type==="signin"? "Sign Up" : "Sign In" } </Link>
                     </div>
                     <div className="flex justify-center">
-                    <LabelledInputs   label="Name" placeholder="Name..." onChange={(e)=>{
-                        setPostInputs(c=>({
-                            ...c,
-                            name:e.target.value
-                        }))
-                    }}/>
+                    {type === "signup" ? <LabelledInputs label="Name" placeholder="Harkirat Singh..." onChange={(e) => {
+                        setPostInputs({
+                            ...postInputs,
+                            name: e.target.value
+                        })
+                    }} /> : null}
                     </div>
                     <div className="flex justify-center">
                     <LabelledInputs   label="Email" placeholder="Email..." onChange={(e)=>{
