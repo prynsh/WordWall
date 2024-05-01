@@ -13,7 +13,7 @@ export const FullBlog=({blog}:{blog:Blog})=>{
             <div className="text-5xl font-extrabold">
                {blog.title}
             </div>
-            <div className="pt-">
+            <div className="pt-5">
                 {blog.content}
             </div>
         </div>
