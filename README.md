@@ -3,7 +3,7 @@
 Welcome to WordWall! This platform is designed to provide users with a seamless experience for creating, publishing, and exploring blogs on various topics. Whether you're a writer looking to share your insights or a reader searching for engaging content, our platform aims to cater to your needs.
 
 # Snapshots
-- **Signup** ![Signup](./signup(wordwall).png)
+- **SignIn** ![Signup](./signup(wordwall).png)
 - **Dashboard** ![Signup](./landing.png)
 
 ## Features
